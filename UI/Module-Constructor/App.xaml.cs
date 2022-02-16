@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Module_Constructor.Services;
 using Module_Constructor.ViewModels;
 
@@ -17,8 +18,7 @@ public partial class App
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-        services.AddLogging();
-
+        services.AddLogging(opt => opt.AddDebug());
         services.AddViewModels();
         services.AddServices();
 

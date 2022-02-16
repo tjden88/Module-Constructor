@@ -20,6 +20,7 @@ namespace Module_Constructor.Data
                 Orientation = Panel.PanelOrientation.Horizontal,
                 BottomMargin = 0,
                 Material = ldsp,
+                Anchor = Panel.PanelAnchor.Bottom
             };
 
             yield return new Panel()
@@ -27,7 +28,8 @@ namespace Module_Constructor.Data
                 Name = "Бок левый",
                 Orientation = Panel.PanelOrientation.Vertical,
                 Material = ldsp,
-                LeftMargin = 0
+                LeftMargin = 0,
+                Anchor = Panel.PanelAnchor.Left
             };
 
             yield return new Panel()
@@ -35,7 +37,8 @@ namespace Module_Constructor.Data
                 Name = "Бок правый",
                 Orientation = Panel.PanelOrientation.Vertical,
                 Material = ldsp,
-                RightMargin = 0
+                RightMargin = 0,
+                Anchor = Panel.PanelAnchor.Right
             };
 
             yield return new Panel()
@@ -45,7 +48,8 @@ namespace Module_Constructor.Data
                 FixedWidth = 100,
                 Material = ldsp,
                 TopMargin = 0,
-                FrontMargin = 0
+                FrontMargin = 0,
+                Anchor = Panel.PanelAnchor.Top
             };
 
             yield return new Panel()
@@ -55,7 +59,8 @@ namespace Module_Constructor.Data
                 FixedWidth = 100,
                 Material = ldsp,
                 TopMargin = 0,
-                BackMargin = 0
+                BackMargin = 0,
+                Anchor = Panel.PanelAnchor.Top
             };
 
             yield return new Panel()
