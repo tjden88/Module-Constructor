@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿using Module_Constructor.Models;
 using Module_Constructor.Visualisation.Base;
 
 namespace Module_Constructor.Visualisation
@@ -11,7 +11,11 @@ namespace Module_Constructor.Visualisation
 
         public Position Position { get; set; }
 
-        public Orientation Orientation { get; set; }
+        public Panel.PanelOrientation Orientation { get; set; }
+
+        public Panel.PanelAnchor Anchor { get; set; }
+
+        public bool HasErrors => false; // TODO: валидация данных
 
     }
 }

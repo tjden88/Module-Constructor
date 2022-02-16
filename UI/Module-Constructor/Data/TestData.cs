@@ -10,28 +10,28 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Дно",
-                Orientation = Panel.DetalOrientation.Horizontal,
+                Orientation = Panel.PanelOrientation.Horizontal,
                 BottomMargin = 0
             };
 
             yield return new Panel()
             {
                 Name = "Бок левый",
-                Orientation = Panel.DetalOrientation.Vertical,
+                Orientation = Panel.PanelOrientation.Vertical,
                 LeftMargin = 0
             };
 
             yield return new Panel()
             {
                 Name = "Бок правый",
-                Orientation = Panel.DetalOrientation.Vertical,
+                Orientation = Panel.PanelOrientation.Vertical,
                 RightMargin = 0
             };
 
             yield return new Panel()
             {
                 Name = "Планка фронт",
-                Orientation = Panel.DetalOrientation.Horizontal,
+                Orientation = Panel.PanelOrientation.Horizontal,
                 FixedWidth = 100,
                 TopMargin = 0
             };
@@ -39,7 +39,7 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Планка зад",
-                Orientation = Panel.DetalOrientation.Horizontal,
+                Orientation = Panel.PanelOrientation.Horizontal,
                 FixedWidth = 100,
                 BackMargin = 0
             };
@@ -47,7 +47,7 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Полка",
-                Orientation = Panel.DetalOrientation.Horizontal,
+                Orientation = Panel.PanelOrientation.Horizontal,
                 FrontMargin = 30,
                 BackMargin = 0
             };

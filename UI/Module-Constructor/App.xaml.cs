@@ -17,6 +17,7 @@ public partial class App
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
+        services.AddLogging();
 
         services.AddViewModels();
         services.AddServices();
