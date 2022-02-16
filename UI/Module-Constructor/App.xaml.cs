@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Module_Constructor.Services;
 using Module_Constructor.ViewModels;
 
 namespace Module_Constructor;
@@ -18,6 +19,7 @@ public partial class App
         var services = new ServiceCollection();
 
         services.AddViewModels();
+        services.AddServices();
 
         return services.BuildServiceProvider();
     }

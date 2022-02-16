@@ -4,9 +4,17 @@
         xmlns:helpers="clr-namespace:WPR.Helpers;assembly=WPR"
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:controls="clr-namespace:WPR.Controls;assembly=WPR"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Style="{StaticResource ChromeWindow}"
         Title="{Binding Title}" Height="650" Width="1000">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:EventTrigger.Actions>
+                <b:InvokeCommandAction Command="{Binding LoadTestDataCommand}"/>
+            </b:EventTrigger.Actions>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <helpers:WindowHelper.WindowHeaderContent>
         <StackPanel Margin="3" Orientation="Horizontal" HorizontalAlignment="Left" Width="Auto" >
             <Button Content="?" Style="{StaticResource WindowTitleButton}"/>
@@ -20,14 +28,14 @@
         </Grid.ColumnDefinitions>
         <DockPanel>
             <Border DockPanel.Dock="Top">
-                <Button Content="Загрузить тестовые данные"/>
+                <Button Content="Загрузить тестовые данные" Command="{Binding LoadTestDataCommand}"/>
             </Border>
             <controls:WPRCard  DockPanel.Dock="Bottom">
-                <StackPanel>
+                <StackPanel DataContext="{Binding SelectedPanel}">
                     <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали"/>
                 </StackPanel>
             </controls:WPRCard>
-            <ListBox></ListBox>
+            <ListBox ItemsSource="{Binding ModuleParts}" SelectedItem="{Binding SelectedPanel}"/>
 
         </DockPanel>
 
