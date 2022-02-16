@@ -27,9 +27,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <DockPanel>
-            <Border DockPanel.Dock="Top">
-                <Button Content="Загрузить тестовые данные" Command="{Binding LoadTestDataCommand}"/>
-            </Border>
+            <Button DockPanel.Dock="Top" Content="Загрузить тестовые данные" Command="{Binding LoadTestDataCommand}"/>
+            <Button DockPanel.Dock="Top" Content="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"/>
+
             <controls:WPRCard  DockPanel.Dock="Bottom">
                 <StackPanel DataContext="{Binding SelectedPanel}">
                     <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали"/>

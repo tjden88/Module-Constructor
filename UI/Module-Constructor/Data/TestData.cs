@@ -7,17 +7,26 @@ namespace Module_Constructor.Data
     {
         public static IEnumerable<Panel> GetKitchenCabinetPanels()
         {
+            var ldsp = new Material()
+            {
+                Name = "ЛДСП 16",
+                Thickness = 16
+            };
+
+
             yield return new Panel()
             {
                 Name = "Дно",
                 Orientation = Panel.PanelOrientation.Horizontal,
-                BottomMargin = 0
+                BottomMargin = 0,
+                Material = ldsp,
             };
 
             yield return new Panel()
             {
                 Name = "Бок левый",
                 Orientation = Panel.PanelOrientation.Vertical,
+                Material = ldsp,
                 LeftMargin = 0
             };
 
@@ -25,6 +34,7 @@ namespace Module_Constructor.Data
             {
                 Name = "Бок правый",
                 Orientation = Panel.PanelOrientation.Vertical,
+                Material = ldsp,
                 RightMargin = 0
             };
 
@@ -33,7 +43,9 @@ namespace Module_Constructor.Data
                 Name = "Планка фронт",
                 Orientation = Panel.PanelOrientation.Horizontal,
                 FixedWidth = 100,
-                TopMargin = 0
+                Material = ldsp,
+                TopMargin = 0,
+                FrontMargin = 0
             };
 
             yield return new Panel()
@@ -41,6 +53,8 @@ namespace Module_Constructor.Data
                 Name = "Планка зад",
                 Orientation = Panel.PanelOrientation.Horizontal,
                 FixedWidth = 100,
+                Material = ldsp,
+                TopMargin = 0,
                 BackMargin = 0
             };
 
@@ -49,6 +63,7 @@ namespace Module_Constructor.Data
                 Name = "Полка",
                 Orientation = Panel.PanelOrientation.Horizontal,
                 FrontMargin = 30,
+                Material = ldsp,
                 BackMargin = 0
             };
 

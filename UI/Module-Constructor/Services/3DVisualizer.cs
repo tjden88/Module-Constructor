@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using HelixToolkit.Wpf;
 using Microsoft.Extensions.Logging;
 using Module_Constructor.Models;
 using Module_Constructor.Services.Interfaces;
@@ -16,12 +18,50 @@ namespace Module_Constructor.Services
 
         public Visualizer(ILogger<Visualizer> Logger) => _Logger = Logger;
 
-        public Model3D CreateModel(Module Module, Panel SelectedPanel = null)
+        public Model3D CreateModel(Module Module, Panel SelectedPanel)
         {
             var sw = Stopwatch.StartNew();
+
+            // Create a model group
+            var modelGroup = new Model3DGroup();
+
+            // Create some materials
+            var greenMaterial = MaterialHelper.CreateMaterial(Colors.Green);
+            var redMaterial = MaterialHelper.CreateMaterial(Colors.Red);
+            var blueMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
+            var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
+
+
+            // Create a mesh builder and add a box to it
+
+            foreach (var modulePart in Module.Parts)
+            {
+                var isSelected = SelectedPanel?.Equals(modulePart);
+
+                var panelModel = BuildViewModel((Panel)modulePart, Module.Width, Module.Height, Module.Depth);
+
+                var meshBuilder = new MeshBuilder(false, false);
+
+
+                var locationPoint = new Point3D(panelModel.Position.Z, panelModel.Position.X, panelModel.Position.Y);
+                var size = new Size3D(panelModel.Depth, panelModel.Width, panelModel.Height);
+
+                var rect = new Rect3D(locationPoint, size);
+
+                meshBuilder.AddBox(rect);
+
+                // Create a mesh from the builder (and freeze it)
+                var mesh = meshBuilder.ToMesh(true);
+
+                var material = isSelected == true ? greenMaterial : redMaterial;
+                // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
+                modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = insideMaterial });
+            }
+
+
             _Logger.LogInformation("Визуализация модуля {0} построена за {1} мс.", Module.Name, sw.ElapsedMilliseconds);
 
-            return null;
+            return modelGroup;
         }
 
         // Построить модель из детали

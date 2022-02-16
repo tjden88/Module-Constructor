@@ -9,7 +9,7 @@ namespace Module_Constructor.Visualisation
         public int Height { get; set; }
         public int Depth { get; set; }
 
-        public Position Position { get; set; }
+        public Position Position { get; set; } = new();
 
         public Panel.PanelOrientation Orientation { get; set; }
 

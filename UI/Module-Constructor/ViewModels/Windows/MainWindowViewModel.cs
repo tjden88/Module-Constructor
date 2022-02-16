@@ -69,13 +69,14 @@ public class MainWindowViewModel : WindowViewModel
     public Panel SelectedPanel
     {
         get => _SelectedPanel;
-        set => Set(ref _SelectedPanel, value);
+        set => IfSet(ref _SelectedPanel, value).Then(() => UpdateVisualizationCommand.Execute());
     }
 
     #endregion
     #endregion
 
     #region Commands
+
     #region Command LoadTestDataCommand - Загрузить тестовые данные
 
     /// <summary>Загрузить тестовые данные</summary>
@@ -101,6 +102,26 @@ public class MainWindowViewModel : WindowViewModel
             Depth = 520,
             Parts = ModuleParts
         };
+        Model = _Visualizer.CreateModel(Module, SelectedPanel);
+    }
+
+    #endregion
+
+    #region Command UpdateVisualizationCommand - Обновить визуализацию модели
+
+    /// <summary>Обновить визуализацию модели</summary>
+    private Command _UpdateVisualizationCommand;
+
+    /// <summary>Обновить визуализацию модели</summary>
+    public Command UpdateVisualizationCommand => _UpdateVisualizationCommand
+        ??= new Command(OnUpdateVisualizationCommandExecuted, CanUpdateVisualizationCommandExecute, "Обновить визуализацию модели");
+
+    /// <summary>Проверка возможности выполнения - Обновить визуализацию модели</summary>
+    private bool CanUpdateVisualizationCommandExecute() => true;
+
+    /// <summary>Логика выполнения - Обновить визуализацию модели</summary>
+    private void OnUpdateVisualizationCommandExecuted()
+    {
         Model = _Visualizer.CreateModel(Module, SelectedPanel);
     }
 
