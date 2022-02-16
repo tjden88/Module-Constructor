@@ -1,17 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Module_Constructor.ViewModels;
 
-namespace Module_Constructor
+namespace Module_Constructor;
+
+public partial class App 
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+
+    private static IServiceProvider _Services;
+
+    /// <summary> Коллекция сервисов приложения </summary>
+    public static IServiceProvider Services => _Services ??= ConfigureServices();
+
+
+    private static IServiceProvider ConfigureServices()
     {
+        var services = new ServiceCollection();
+
+        services.AddViewModels();
+
+        return services.BuildServiceProvider();
     }
 }
