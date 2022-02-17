@@ -92,7 +92,7 @@ namespace Module_Constructor.Services
             // Установить размеры и положение в зависимости от ориентации
             switch (panel.Orientation)
             {
-                case Panel.PanelOrientation.Horizontal:
+                case PanelOrientation.Horizontal:
                     viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
                     viewModel.Height = panel.Thickness;
                     viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BackMargin);
@@ -102,7 +102,7 @@ namespace Module_Constructor.Services
                     viewModel.IsFixedDepth = panel.FixedWidth != null;
 
                     break;
-                case Panel.PanelOrientation.Vertical:
+                case PanelOrientation.Vertical:
                     viewModel.Width = panel.Thickness;
                     viewModel.Height = panel.FixedLenght ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
                     viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BackMargin);
@@ -111,7 +111,7 @@ namespace Module_Constructor.Services
                     viewModel.IsFixedHeight = panel.FixedLenght != null;
                     viewModel.IsFixedDepth = panel.FixedWidth != null;
                     break;
-                case Panel.PanelOrientation.Frontal:
+                case PanelOrientation.Frontal:
                     viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
                     viewModel.Height = panel.FixedWidth ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
                     viewModel.Depth = panel.Thickness;
@@ -170,7 +170,7 @@ namespace Module_Constructor.Services
         {
 
             var leftOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Left && current.Panel.Anchor != Panel.PanelAnchor.Right)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Left && current.Panel.Anchor != PanelAnchor.Right)
                 .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.X + p.Width)
@@ -179,7 +179,7 @@ namespace Module_Constructor.Services
 
 
             var rightOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Right && current.Panel.Anchor != Panel.PanelAnchor.Left)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Right && current.Panel.Anchor != PanelAnchor.Left)
                 .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaWidth - p.Position.X)
@@ -199,7 +199,7 @@ namespace Module_Constructor.Services
 
 
             var bottomOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Bottom && current.Panel.Anchor != Panel.PanelAnchor.Top)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Bottom && current.Panel.Anchor != PanelAnchor.Top)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.Y + p.Height)
@@ -209,7 +209,7 @@ namespace Module_Constructor.Services
 
 
             var topOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Top && current.Panel.Anchor != Panel.PanelAnchor.Bottom)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Top && current.Panel.Anchor != PanelAnchor.Bottom)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaHeight - p.Position.Y)
@@ -228,7 +228,7 @@ namespace Module_Constructor.Services
             }
 
             var backOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Back && current.Panel.Anchor != Panel.PanelAnchor.Front)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Back && current.Panel.Anchor != PanelAnchor.Front)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => p.Position.Z + p.Depth)
@@ -238,7 +238,7 @@ namespace Module_Constructor.Services
 
 
             var frontOffset = previousModels
-                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Front && current.Panel.Anchor != Panel.PanelAnchor.Back)
+                .Where(p => p.Panel.Anchor == PanelAnchor.Front && current.Panel.Anchor != PanelAnchor.Back)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => AreaDepth - p.Position.Z)

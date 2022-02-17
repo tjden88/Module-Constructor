@@ -3,29 +3,31 @@ using System.ComponentModel;
 
 namespace Module_Constructor.Models
 {
+    public enum PanelOrientation
+    {
+        [Description("Горизонтальная")]
+        Horizontal,
+        [Description("Вертикальная")]
+        Vertical,
+        [Description("Фронтальная")]
+        Frontal
+    }
+
+    public enum PanelAnchor
+    {
+        None,
+        Left,
+        Right,
+        Top,
+        Bottom,
+        Back,
+        Front
+    }
+
     /// <summary> Шаблон детали </summary>
     public class Panel : ModulePart
     {
-        public enum PanelOrientation
-        {
-            [Description("Горизонтальная")]
-            Horizontal,
-            [Description("Вертикальная")]
-            Vertical,
-            [Description("Фронтальная")]
-            Frontal
-        }
 
-        public enum PanelAnchor
-        {
-            None,
-            Left,
-            Right,
-            Top,
-            Bottom,
-            Back,
-            Front
-        }
 
 
         /// <summary> Материал детали </summary>

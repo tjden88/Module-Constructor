@@ -22,56 +22,56 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Дно",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 BottomMargin = 0,
                 Material = ldsp,
-                Anchor = Panel.PanelAnchor.Bottom
+                Anchor = PanelAnchor.Bottom
             };
 
             yield return new Panel()
             {
                 Name = "Бок левый",
-                Orientation = Panel.PanelOrientation.Vertical,
+                Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 LeftMargin = 0,
-                Anchor = Panel.PanelAnchor.Left
+                Anchor = PanelAnchor.Left
             };
 
             yield return new Panel()
             {
                 Name = "Бок правый",
-                Orientation = Panel.PanelOrientation.Vertical,
+                Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 RightMargin = 0,
-                Anchor = Panel.PanelAnchor.Right
+                Anchor = PanelAnchor.Right
             };
 
             yield return new Panel()
             {
                 Name = "Планка фронт",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 FixedWidth = 100,
                 Material = ldsp,
                 TopMargin = 0,
                 FrontMargin = 0,
-                Anchor = Panel.PanelAnchor.Top
+                Anchor = PanelAnchor.Top
             };
 
             yield return new Panel()
             {
                 Name = "Планка зад",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 FixedWidth = 100,
                 Material = ldsp,
                 TopMargin = 0,
                 BackMargin = 0,
-                Anchor = Panel.PanelAnchor.Top
+                Anchor = PanelAnchor.Top
             };
 
             yield return new Panel()
             {
                 Name = "Полка",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 FrontMargin = 30,
                 Material = ldsp,
                 BackMargin = 0,
@@ -83,14 +83,14 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Задник",
-                Orientation = Panel.PanelOrientation.Frontal,
+                Orientation = PanelOrientation.Frontal,
                 BackMargin = -3,
                 LeftMargin = 2,
                 RightMargin = 2,
                 TopMargin = 2,
                 BottomMargin = 2,
                 Material = hdf,
-                Anchor = Panel.PanelAnchor.Back
+                Anchor = PanelAnchor.Back
             };
 
         }
@@ -112,63 +112,63 @@ namespace Module_Constructor.Data
             yield return new Panel()
             {
                 Name = "Верх",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 TopMargin = 0,
                 Material = ldsp32,
-                Anchor = Panel.PanelAnchor.Top
+                Anchor = PanelAnchor.Top
             };
 
             yield return new Panel()
             {
                 Name = "Бок левый",
-                Orientation = Panel.PanelOrientation.Vertical,
+                Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 LeftMargin = 0,
-                Anchor = Panel.PanelAnchor.Left
+                Anchor = PanelAnchor.Left
             };
 
             yield return new Panel()
             {
                 Name = "Бок правый",
-                Orientation = Panel.PanelOrientation.Vertical,
+                Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 RightMargin = 0,
-                Anchor = Panel.PanelAnchor.Right
+                Anchor = PanelAnchor.Right
             };
 
             yield return new Panel()
             {
                 Name = "Цоколь",
-                Orientation = Panel.PanelOrientation.Frontal,
+                Orientation = PanelOrientation.Frontal,
                 FixedWidth = 70,
                 Material = ldsp,
                 BottomMargin = 0,
                 FrontMargin = 0,
-                Anchor = Panel.PanelAnchor.Bottom
+                Anchor = PanelAnchor.Bottom
             };
 
             yield return new Panel()
             {
                 Name = "Дно",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 Material = ldsp,
                 BottomMargin = 0,
-                Anchor = Panel.PanelAnchor.Bottom
+                Anchor = PanelAnchor.Bottom
             };
 
             yield return new Panel()
             {
                 Name = "Задник",
-                Orientation = Panel.PanelOrientation.Frontal,
+                Orientation = PanelOrientation.Frontal,
                 BackMargin = 0,
                 Material = ldsp,
-                Anchor = Panel.PanelAnchor.Back
+                Anchor = PanelAnchor.Back
             };
 
             yield return new Panel()
             {
                 Name = "Полка",
-                Orientation = Panel.PanelOrientation.Horizontal,
+                Orientation = PanelOrientation.Horizontal,
                 FrontMargin = 30,
                 Material = ldsp,
                 BackMargin = 0,

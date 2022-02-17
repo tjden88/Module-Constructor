@@ -23,17 +23,33 @@
     </helpers:WindowHelper.WindowHeaderContent>
 
     <DockPanel>
-             <Menu IsMainMenu="True" DockPanel.Dock="Top">
-                <MenuItem Header="Модуль">
-                    <MenuItem Header="Загрузить" Command="{Binding LoadModuleCommand}"></MenuItem>
-                    <MenuItem Header="Сохранить" Command="{Binding SaveModuleCommand}"></MenuItem>
-                    <Separator/>
-                    <MenuItem Header="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"></MenuItem>
+        <Menu IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="Модуль">
+                <MenuItem Header="Загрузить" Command="{Binding LoadModuleCommand}"></MenuItem>
+                <MenuItem Header="Сохранить" Command="{Binding SaveModuleCommand}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"></MenuItem>
                 <MenuItem Header="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Детали">
+                <MenuItem Header="Добавить">
+                    <MenuItem Header="Горизонтальная деталь" Command="{Binding AddPanelCommand}" CommandParameter="{x:Static m:PanelOrientation.Horizontal}"/>
+                    <MenuItem Header="Вертикальная деталь" Command="{Binding AddPanelCommand}" CommandParameter="{x:Static m:PanelOrientation.Vertical}"/>
+                    <MenuItem Header="Фронтальная деталь" Command="{Binding AddPanelCommand}" CommandParameter="{x:Static m:PanelOrientation.Frontal}"/>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Переместить выше" Command="{Binding SetPanelUpCommand}"/>
+                <MenuItem Header="Переместить ниже" Command="{Binding SetPanelDownCommand}"/>
+                <Separator/>
+                <MenuItem Header="Удалить деталь" Command="{Binding DeletePanelCommand}">
+                    <MenuItem.Icon>
+                        <controls:WPRIcon Source="Delete" Foreground="{DynamicResource AttentionColorBrush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"></MenuItem>
-            </Menu>
-       <DockPanel Margin="5" Width="250">
+        </Menu>
+        <DockPanel Margin="5" Width="250">
             <GroupBox Header="Параметры модуля" DockPanel.Dock="Top">
                 <StackPanel Margin="5" >
                     <controls:NumericTextBox Hint="Ширина модуля" Value="{Binding Module.Width}" />
@@ -42,11 +58,11 @@
                 </StackPanel>
             </GroupBox>
             <Button Content="Обновить 3D" DockPanel.Dock="Bottom"  Command="{Binding UpdateVisualizationCommand}"></Button>
-           <GroupBox Header="Информация о детали"  DockPanel.Dock="Bottom">
+            <GroupBox Header="Информация о детали"  DockPanel.Dock="Bottom">
                 <StackPanel Margin="5" DataContext="{Binding SelectedPanel}">
-                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
+                    <TextBox Text="{Binding Name}" helpers:TextHelper.Hint="Имя детали"/>
                     <TextBox Text="{Binding FixedLenght}" helpers:TextHelper.Hint="Фиксированная длина"/>
                     <TextBox Text="{Binding FixedWidth}" helpers:TextHelper.Hint="Фиксированная ширина"/>
                     <TextBox Text="{Binding LeftMargin}" helpers:TextHelper.Hint="Отступ слева"/>

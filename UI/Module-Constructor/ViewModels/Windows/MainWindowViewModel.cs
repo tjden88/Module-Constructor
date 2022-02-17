@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media.Media3D;
@@ -24,6 +24,7 @@ public class MainWindowViewModel : WindowViewModel
     }
 
     #region Properties
+
     #region ModuleParts : ObservableCollection<ModulePart> - Детали и секции модуля
 
     /// <summary>Детали и секции модуля</summary>
@@ -79,6 +80,7 @@ public class MainWindowViewModel : WindowViewModel
     }
 
     #endregion
+
     #endregion
 
     #region Commands
@@ -203,6 +205,131 @@ public class MainWindowViewModel : WindowViewModel
        Panels = new(Module?.Panels ?? Enumerable.Empty<Panel>());
 
        UpdateVisualizationCommand.Execute();
+    }
+
+    #endregion
+
+    #region Command AddPanelCommand : PanelOrientation - Добавить деталь
+
+    /// <summary>Добавить деталь</summary>
+    private Command _AddPanelCommand;
+
+    /// <summary>Добавить деталь</summary>
+    public Command AddPanelCommand => _AddPanelCommand
+        ??= new Command(OnAddPanelCommandExecuted, CanAddPanelCommandExecute, "Добавить деталь");
+
+    /// <summary>Проверка возможности выполнения - Добавить деталь</summary>
+    private bool CanAddPanelCommandExecute(object p) => p is PanelOrientation;
+
+    /// <summary>Проверка возможности выполнения - Добавить деталь</summary>
+    private void OnAddPanelCommandExecuted(object p)
+    {
+        var orientation = (PanelOrientation) p;
+
+        var ldsp = new Models.Material()
+        {
+            Name = "ЛДСП 16",
+            Thickness = 16
+        };
+
+        var panel = new Panel()
+        {
+            Orientation = orientation,
+            Material = ldsp,
+            Name = "Новая деталь"
+        };
+
+        switch (orientation)
+        {
+            case PanelOrientation.Horizontal:
+                panel.LeftMargin = 0;
+                panel.RightMargin = 0;
+                panel.FrontMargin = 0;
+                panel.BackMargin = 0;
+                break;
+            case PanelOrientation.Vertical:
+                panel.TopMargin = 0;
+                panel.BottomMargin = 0;
+                panel.FrontMargin = 0;
+                panel.BackMargin = 0;
+                break;
+            case PanelOrientation.Frontal:
+                panel.LeftMargin = 0;
+                panel.RightMargin = 0;
+                panel.TopMargin = 0;
+                panel.BottomMargin = 0;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(p), p, null);
+        }
+
+        _ModuleBuilder.AddPanel(Module,panel);
+    }
+
+    #endregion
+
+    #region Command DeletePanelCommand - Удалить деталь
+
+    /// <summary>Удалить деталь</summary>
+    private Command _DeletePanelCommand;
+
+    /// <summary>Удалить деталь</summary>
+    public Command DeletePanelCommand => _DeletePanelCommand
+        ??= new Command(OnDeletePanelCommandExecuted, CanDeletePanelCommandExecute, "Удалить деталь");
+
+    /// <summary>Проверка возможности выполнения - Удалить деталь</summary>
+    private bool CanDeletePanelCommandExecute() => SelectedPanel is {};
+
+    /// <summary>Логика выполнения - Удалить деталь</summary>
+    private void OnDeletePanelCommandExecuted()
+    {
+        _ModuleBuilder.RemovePanel(Module, SelectedPanel);
+    }
+
+    #endregion
+
+    #region Command SetPanelUpCommand - Переместить деталь выше
+
+    /// <summary>Переместить деталь выше</summary>
+    private Command _SetPanelUpCommand;
+
+    /// <summary>Переместить деталь выше</summary>
+    public Command SetPanelUpCommand => _SetPanelUpCommand
+        ??= new Command(OnSetPanelUpCommandExecuted, CanSetPanelUpCommandExecute, "Переместить деталь выше");
+
+    /// <summary>Проверка возможности выполнения - Переместить деталь выше</summary>
+    private bool CanSetPanelUpCommandExecute() => SelectedPanel is {Order: > 0};
+
+    /// <summary>Логика выполнения - Переместить деталь выше</summary>
+    private void OnSetPanelUpCommandExecuted()
+    {
+        _ModuleBuilder.SetPanelOrder(Module, SelectedPanel, SelectedPanel.Order - 1);
+        Panels = new(Module.Panels.OrderBy(p => p.Order));
+    }
+
+    #endregion
+
+    #region Command SetPanelDownCommand - Переместить деталь ниже
+
+    /// <summary>Переместить деталь ниже</summary>
+    private Command _SetPanelDownCommand;
+
+    /// <summary>Переместить деталь ниже</summary>
+    public Command SetPanelDownCommand => _SetPanelDownCommand
+        ??= new Command(OnSetPanelDownCommandExecuted, CanSetPanelDownCommandExecute, "Переместить деталь ниже");
+
+    /// <summary>Проверка возможности выполнения - Переместить деталь ниже</summary>
+    private bool CanSetPanelDownCommandExecute()
+    {
+        var allPanelsCount = Module.Panels.Count;
+        return SelectedPanel is {} p && p.Order < allPanelsCount;
+    }
+
+    /// <summary>Логика выполнения - Переместить деталь ниже</summary>
+    private void OnSetPanelDownCommandExecuted()
+    {
+        _ModuleBuilder.SetPanelOrder(Module, SelectedPanel, SelectedPanel.Order + 1);
+        Panels = new(Module.Panels.OrderBy(p => p.Order));
     }
 
     #endregion
