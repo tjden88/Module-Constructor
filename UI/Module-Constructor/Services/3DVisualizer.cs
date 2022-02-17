@@ -16,7 +16,10 @@ namespace Module_Constructor.Services
     {
         private readonly ILogger _Logger;
 
+
         public Visualizer(ILogger<Visualizer> Logger) => _Logger = Logger;
+
+
 
         public Model3D CreateModel(Module Module, Panel SelectedPanel)
         {
@@ -32,13 +35,17 @@ namespace Module_Constructor.Services
             var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
 
 
-            // Create a mesh builder and add a box to it
+            var panels = new List<PanelViewModel>();
 
             foreach (var modulePart in Module.Parts)
             {
                 var isSelected = SelectedPanel?.Equals(modulePart);
 
                 var panelModel = BuildViewModel((Panel)modulePart, Module.Width, Module.Height, Module.Depth);
+
+                ExcludeCollisions(panelModel, panels, Module.Width, Module.Height, Module.Depth);
+
+                panels.Add(panelModel);
 
                 var meshBuilder = new MeshBuilder(false, false);
 
@@ -63,6 +70,9 @@ namespace Module_Constructor.Services
 
             return modelGroup;
         }
+
+
+
 
         // Построить модель из детали
         private PanelViewModel BuildViewModel(Panel panel, int AreaWidth, int AreaHeight, int AreaDepth)
@@ -105,6 +115,8 @@ namespace Module_Constructor.Services
         }
 
 
+
+
         private int GetOffset(int Bound, int DetalSize, int? FirstMargin, int? SecondMargin) // Получить смещение детали отностиельно начала координат
         {
             if (FirstMargin.HasValue)
@@ -121,11 +133,13 @@ namespace Module_Constructor.Services
         }
 
 
+
+
         // Устранить пересечения
         private void ExcludeCollisions(PanelViewModel current, ICollection<PanelViewModel> previousModels, int AreaWidth, int AreaHeight, int AreaDepth)
         {
             var leftOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Left)
+                .Where(p => p.Anchor == Panel.PanelAnchor.Left && current.Anchor != Panel.PanelAnchor.Right)
                 .Select(p => p.Position.X + p.Width)
                 .DefaultIfEmpty()
                 .Max();
@@ -134,12 +148,12 @@ namespace Module_Constructor.Services
 
 
             var rightOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Right)
+                .Where(p => p.Anchor == Panel.PanelAnchor.Right && current.Anchor != Panel.PanelAnchor.Left)
                 .Select(p => AreaWidth - p.Position.X)
                 .DefaultIfEmpty()
                 .Max();
 
-            current.Width -= rightOffset;
+            current.Width -= rightOffset + leftOffset;
         }
 
     }
