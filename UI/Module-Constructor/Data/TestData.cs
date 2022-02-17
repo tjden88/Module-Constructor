@@ -94,5 +94,89 @@ namespace Module_Constructor.Data
             };
 
         }
+
+        public static IEnumerable<Panel> GetDeskPanels()
+        {
+            var ldsp = new Material()
+            {
+                Name = "ЛДСП 16",
+                Thickness = 16
+            };
+            var ldsp32 = new Material()
+            {
+                Name = "ЛДСП 32",
+                Thickness = 32
+            };
+
+
+            yield return new Panel()
+            {
+                Name = "Верх",
+                Orientation = Panel.PanelOrientation.Horizontal,
+                TopMargin = 0,
+                Material = ldsp32,
+                Anchor = Panel.PanelAnchor.Top
+            };
+
+            yield return new Panel()
+            {
+                Name = "Бок левый",
+                Orientation = Panel.PanelOrientation.Vertical,
+                Material = ldsp,
+                LeftMargin = 0,
+                Anchor = Panel.PanelAnchor.Left
+            };
+
+            yield return new Panel()
+            {
+                Name = "Бок правый",
+                Orientation = Panel.PanelOrientation.Vertical,
+                Material = ldsp,
+                RightMargin = 0,
+                Anchor = Panel.PanelAnchor.Right
+            };
+
+            yield return new Panel()
+            {
+                Name = "Цоколь",
+                Orientation = Panel.PanelOrientation.Frontal,
+                FixedWidth = 70,
+                Material = ldsp,
+                BottomMargin = 0,
+                FrontMargin = 0,
+                Anchor = Panel.PanelAnchor.Bottom
+            };
+
+            yield return new Panel()
+            {
+                Name = "Дно",
+                Orientation = Panel.PanelOrientation.Horizontal,
+                Material = ldsp,
+                BottomMargin = 0,
+                Anchor = Panel.PanelAnchor.Bottom
+            };
+
+            yield return new Panel()
+            {
+                Name = "Задник",
+                Orientation = Panel.PanelOrientation.Frontal,
+                BackMargin = 0,
+                Material = ldsp,
+                Anchor = Panel.PanelAnchor.Back
+            };
+
+            yield return new Panel()
+            {
+                Name = "Полка",
+                Orientation = Panel.PanelOrientation.Horizontal,
+                FrontMargin = 30,
+                Material = ldsp,
+                BackMargin = 0,
+                LeftMargin = 1,
+                RightMargin = 1
+            };
+
+        }
+
     }
 }

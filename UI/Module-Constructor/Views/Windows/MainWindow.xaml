@@ -8,7 +8,7 @@
         xmlns:m="clr-namespace:Module_Constructor.Models"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Style="{StaticResource ChromeWindow}"
-        Title="{Binding Title}" Height="650" Width="1000">
+        Title="{Binding Title}" Height="1000" Width="1200">
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:EventTrigger.Actions>
@@ -28,7 +28,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <DockPanel Margin="5">
-            <Button DockPanel.Dock="Top" Content="Загрузить тестовые данные" Command="{Binding LoadTestDataCommand}"/>
+            <Button DockPanel.Dock="Top" Content="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"/>
+            <Button DockPanel.Dock="Top" Content="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"/>
             <Button DockPanel.Dock="Top" Content="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"/>
             <Border Margin="5" DockPanel.Dock="Top">
                 <StackPanel >
@@ -39,35 +40,20 @@
                 </StackPanel>
             </Border>
             <controls:WPRCard  DockPanel.Dock="Bottom">
-                <StackPanel DataContext="{Binding SelectedPanel}">
+                <StackPanel Margin="5" DataContext="{Binding SelectedPanel}">
                     <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
-                    <DockPanel>
-                        <TextBlock Text="Отступ слева"/>
-                        <TextBox Text="{Binding LeftMargin}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Отступ справа"/>
-                        <TextBox Text="{Binding RightMargin}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Отступ сверху"/>
-                        <TextBox Text="{Binding TopMargin}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Отступ снизу"/>
-                        <TextBox Text="{Binding BottomMargin}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Отступ сзади"/>
-                        <TextBox Text="{Binding BackMargin}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Отступ спереди"/>
-                        <TextBox Text="{Binding FrontMargin}"/>
-                    </DockPanel>
+                    <TextBox Text="{Binding FixedLenght}" helpers:TextHelper.Hint="Фиксированная длина"/>
+                    <TextBox Text="{Binding FixedWidth}" helpers:TextHelper.Hint="Фиксированная ширина"/>
+                    <TextBox Text="{Binding LeftMargin}" helpers:TextHelper.Hint="Отступ слева"/>
+                    <TextBox Text="{Binding RightMargin}" helpers:TextHelper.Hint="Отступ справа"/>
+                    <TextBox Text="{Binding TopMargin}" helpers:TextHelper.Hint="Отступ сверху"/>
+                    <TextBox Text="{Binding BottomMargin}" helpers:TextHelper.Hint="Отступ снизу"/>
+                    <TextBox Text="{Binding BackMargin}" helpers:TextHelper.Hint="Отступ сзади"/>
+                    <TextBox Text="{Binding FrontMargin}" helpers:TextHelper.Hint="Отступ спереди"/>
+
                 </StackPanel>
             </controls:WPRCard>
 

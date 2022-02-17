@@ -107,6 +107,38 @@ public class MainWindowViewModel : WindowViewModel
 
     #endregion
 
+
+    #region Command LoadDeskTestDataCommand - Загрузить тестовые данные (тумба с цоколем)
+
+    /// <summary>Загрузить тестовые данные (тумба с цоколем)</summary>
+    private Command _LoadDeskTestDataCommand;
+
+    /// <summary>Загрузить тестовые данные (тумба с цоколем)</summary>
+    public Command LoadDeskTestDataCommand => _LoadDeskTestDataCommand
+        ??= new Command(OnLoadDeskTestDataCommandExecuted, CanLoadDeskTestDataCommandExecute, "Загрузить тестовые данные (тумба с цоколем)");
+
+    /// <summary>Проверка возможности выполнения - Загрузить тестовые данные (тумба с цоколем)</summary>
+    private bool CanLoadDeskTestDataCommandExecute() => true;
+
+    /// <summary>Логика выполнения - Загрузить тестовые данные (тумба с цоколем)</summary>
+    private void OnLoadDeskTestDataCommandExecuted()
+    {
+        ModuleParts = new(TestData.GetDeskPanels());
+
+        Module = new Module()
+        {
+            Name = "Тумба с цоколем",
+            Height = 900,
+            Width = 500,
+            Depth = 450,
+            Parts = ModuleParts
+        };
+        Model = _Visualizer.CreateModel(Module, SelectedPanel);
+
+    }
+
+    #endregion
+
     #region Command UpdateVisualizationCommand - Обновить визуализацию модели
 
     /// <summary>Обновить визуализацию модели</summary>
