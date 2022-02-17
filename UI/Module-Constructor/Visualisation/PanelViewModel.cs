@@ -5,9 +5,15 @@ namespace Module_Constructor.Visualisation
 {
     public class PanelViewModel
     {
+        public string Name { get; set; }
+
         public int Width { get; set; }
         public int Height { get; set; }
         public int Depth { get; set; }
+
+        public bool IsFixedWidth { get; set; }
+        public bool IsFixedHeight { get; set; }
+        public bool IsFixedDepth { get; set; }
 
         public Position Position { get; set; } = new();
 
@@ -15,7 +21,7 @@ namespace Module_Constructor.Visualisation
 
         public Panel.PanelAnchor Anchor { get; set; }
 
-        public bool HasErrors => false; // TODO: валидация данных
+        public bool HasErrors => Width < 1 || Height <1 || Depth <1; // TODO: валидация данных
 
     }
 }

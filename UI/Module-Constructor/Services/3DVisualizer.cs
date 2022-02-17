@@ -20,7 +20,6 @@ namespace Module_Constructor.Services
         public Visualizer(ILogger<Visualizer> Logger) => _Logger = Logger;
 
 
-
         public Model3D CreateModel(Module Module, Panel SelectedPanel)
         {
             var sw = Stopwatch.StartNew();
@@ -45,6 +44,12 @@ namespace Module_Constructor.Services
 
                 ExcludeCollisions(panelModel, panels, Module.Width, Module.Height, Module.Depth);
 
+                if (panelModel.HasErrors)
+                {
+                    _Logger.LogWarning("Ошибки построения детали {0}", panelModel.Name);
+                    continue;
+                }
+
                 panels.Add(panelModel);
 
                 var meshBuilder = new MeshBuilder(false, false);
@@ -64,13 +69,10 @@ namespace Module_Constructor.Services
                 // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
                 modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = insideMaterial });
             }
-
-
             _Logger.LogInformation("Визуализация модуля {0} построена за {1} мс.", Module.Name, sw.ElapsedMilliseconds);
 
             return modelGroup;
         }
-
 
 
 
@@ -81,6 +83,7 @@ namespace Module_Constructor.Services
             {
                 Orientation = panel.Orientation,
                 Anchor = panel.Anchor,
+                Name = panel.Name
             };
 
             // Установить размеры и положение в зависимости от ориентации
@@ -91,17 +94,28 @@ namespace Module_Constructor.Services
                     viewModel.Height = panel.Thickness;
                     viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
 
+                    viewModel.IsFixedWidth = panel.FixedLenght != null;
+                    viewModel.IsFixedHeight = true;
+                    viewModel.IsFixedDepth = panel.FixedWidth != null;
 
                     break;
                 case Panel.PanelOrientation.Vertical:
                     viewModel.Width = panel.Thickness;
                     viewModel.Height = panel.FixedLenght ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
                     viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
+
+                    viewModel.IsFixedWidth = true;
+                    viewModel.IsFixedHeight = panel.FixedLenght != null;
+                    viewModel.IsFixedDepth = panel.FixedWidth != null;
                     break;
                 case Panel.PanelOrientation.Frontal:
                     viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
                     viewModel.Height = panel.FixedWidth ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
                     viewModel.Depth = panel.Thickness;
+
+                    viewModel.IsFixedWidth = panel.FixedLenght != null;
+                    viewModel.IsFixedHeight = panel.FixedWidth != null;
+                    viewModel.IsFixedDepth = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -147,7 +161,6 @@ namespace Module_Constructor.Services
 
 
 
-
         // Устранить пересечения
         private void ExcludeCollisions(PanelViewModel current, ICollection<PanelViewModel> previousModels, int AreaWidth, int AreaHeight, int AreaDepth)
         {
@@ -166,7 +179,29 @@ namespace Module_Constructor.Services
                 .DefaultIfEmpty()
                 .Max();
 
-            current.Width -= rightOffset + leftOffset;
+            if (!current.IsFixedWidth)
+                current.Width -= rightOffset + leftOffset;
+
+
+            var bottomOffset = previousModels
+                .Where(p => p.Anchor == Panel.PanelAnchor.Bottom && current.Anchor != Panel.PanelAnchor.Top)
+                .Select(p => p.Position.Y + p.Height)
+                .DefaultIfEmpty()
+                .Max();
+
+            current.Position.Y += bottomOffset;
+
+
+            var topOffset = previousModels
+                .Where(p => p.Anchor == Panel.PanelAnchor.Top && current.Anchor != Panel.PanelAnchor.Bottom)
+                .Select(p => AreaHeight - p.Position.Y)
+                .DefaultIfEmpty()
+                .Max();
+
+            if (!current.IsFixedHeight)
+                current.Height -= topOffset + bottomOffset;
+
+
         }
 
     }
