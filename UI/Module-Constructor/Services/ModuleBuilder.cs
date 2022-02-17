@@ -70,11 +70,16 @@ namespace Module_Constructor.Services
                     "Номер детали должен быть не менее 1 и не более общего количества деталей");
 
             // Упорядочить номера деталей
-            var index = order + 1;
+            var index =  1;
             foreach (var p in module.Panels
-                         .Where(p => p.Order > order && !p.Equals(panel))
-                         .OrderBy(p => p.Order)) 
+                         .Where(p => !p.Equals(panel))
+                         .OrderBy(p => p.Order))
+            {
+                if (index == order)
+                    index++;
+
                 p.Order = index++;
+            }
 
             panel.Order = order;
         }

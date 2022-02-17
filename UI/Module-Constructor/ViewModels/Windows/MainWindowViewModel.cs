@@ -298,7 +298,7 @@ public class MainWindowViewModel : WindowViewModel
         ??= new Command(OnSetPanelUpCommandExecuted, CanSetPanelUpCommandExecute, "Переместить деталь выше");
 
     /// <summary>Проверка возможности выполнения - Переместить деталь выше</summary>
-    private bool CanSetPanelUpCommandExecute() => SelectedPanel is {Order: > 0};
+    private bool CanSetPanelUpCommandExecute() => SelectedPanel is {Order: > 1};
 
     /// <summary>Логика выполнения - Переместить деталь выше</summary>
     private void OnSetPanelUpCommandExecuted()

@@ -25,7 +25,8 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Horizontal,
                 BottomMargin = 0,
                 Material = ldsp,
-                Anchor = PanelAnchor.Bottom
+                Anchor = PanelAnchor.Bottom,
+                Order = 1,
             };
 
             yield return new Panel()
@@ -34,6 +35,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 LeftMargin = 0,
+                Order = 2,
                 Anchor = PanelAnchor.Left
             };
 
@@ -43,6 +45,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 RightMargin = 0,
+                Order = 3,
                 Anchor = PanelAnchor.Right
             };
 
@@ -54,6 +57,7 @@ namespace Module_Constructor.Data
                 Material = ldsp,
                 TopMargin = 0,
                 FrontMargin = 0,
+                Order = 4,
                 Anchor = PanelAnchor.Top
             };
 
@@ -65,6 +69,7 @@ namespace Module_Constructor.Data
                 Material = ldsp,
                 TopMargin = 0,
                 BackMargin = 0,
+                Order = 5,
                 Anchor = PanelAnchor.Top
             };
 
@@ -76,6 +81,7 @@ namespace Module_Constructor.Data
                 Material = ldsp,
                 BackMargin = 0,
                 LeftMargin = 1,
+                Order = 6,
                 RightMargin = 1
             };
 
@@ -90,6 +96,7 @@ namespace Module_Constructor.Data
                 TopMargin = 2,
                 BottomMargin = 2,
                 Material = hdf,
+                Order = 7,
                 Anchor = PanelAnchor.Back
             };
 
@@ -115,6 +122,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Horizontal,
                 TopMargin = 0,
                 Material = ldsp32,
+                Order = 1,
                 Anchor = PanelAnchor.Top
             };
 
@@ -124,6 +132,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 LeftMargin = 0,
+                Order = 2,
                 Anchor = PanelAnchor.Left
             };
 
@@ -133,6 +142,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Vertical,
                 Material = ldsp,
                 RightMargin = 0,
+                Order = 3,
                 Anchor = PanelAnchor.Right
             };
 
@@ -144,6 +154,7 @@ namespace Module_Constructor.Data
                 Material = ldsp,
                 BottomMargin = 0,
                 FrontMargin = 0,
+                Order = 4,
                 Anchor = PanelAnchor.Bottom
             };
 
@@ -153,6 +164,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Horizontal,
                 Material = ldsp,
                 BottomMargin = 0,
+                Order = 5,
                 Anchor = PanelAnchor.Bottom
             };
 
@@ -162,6 +174,7 @@ namespace Module_Constructor.Data
                 Orientation = PanelOrientation.Frontal,
                 BackMargin = 0,
                 Material = ldsp,
+                Order = 6,
                 Anchor = PanelAnchor.Back
             };
 
@@ -173,6 +186,7 @@ namespace Module_Constructor.Data
                 Material = ldsp,
                 BackMargin = 0,
                 LeftMargin = 1,
+                Order = 7,
                 RightMargin = 1
             };
 
