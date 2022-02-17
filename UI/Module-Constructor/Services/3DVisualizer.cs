@@ -87,20 +87,20 @@ namespace Module_Constructor.Services
             switch (panel.Orientation)
             {
                 case Panel.PanelOrientation.Horizontal:
-                    viewModel.Width = panel.FixedLenght ?? AreaWidth;
+                    viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
                     viewModel.Height = panel.Thickness;
-                    viewModel.Depth = panel.FixedWidth ?? AreaDepth;
+                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
 
 
                     break;
                 case Panel.PanelOrientation.Vertical:
                     viewModel.Width = panel.Thickness;
-                    viewModel.Height = panel.FixedLenght ?? AreaHeight;
-                    viewModel.Depth = panel.FixedWidth ?? AreaDepth;
+                    viewModel.Height = panel.FixedLenght ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
+                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
                     break;
                 case Panel.PanelOrientation.Frontal:
-                    viewModel.Width = panel.FixedLenght ?? AreaWidth;
-                    viewModel.Height = panel.FixedWidth ?? AreaHeight;
+                    viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
+                    viewModel.Height = panel.FixedWidth ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
                     viewModel.Depth = panel.Thickness;
                     break;
                 default:
@@ -115,6 +115,19 @@ namespace Module_Constructor.Services
         }
 
 
+        private int GetSize(int Bound, int? FirstMargin, int? SecondMargin) // Получить размер детали
+        {
+            if (FirstMargin.HasValue)
+            {
+                Bound -= FirstMargin.Value;
+            }
+
+            if (SecondMargin.HasValue)
+            {
+                Bound -= SecondMargin.Value;
+            }
+            return Bound;
+        }
 
 
         private int GetOffset(int Bound, int DetalSize, int? FirstMargin, int? SecondMargin) // Получить смещение детали отностиельно начала координат
