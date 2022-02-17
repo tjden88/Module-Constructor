@@ -74,7 +74,9 @@ namespace Module_Constructor.Data
                 Orientation = Panel.PanelOrientation.Horizontal,
                 FrontMargin = 30,
                 Material = ldsp,
-                BackMargin = 0
+                BackMargin = 0,
+                LeftMargin = 1,
+                RightMargin = 1
             };
 
             yield return new Panel()

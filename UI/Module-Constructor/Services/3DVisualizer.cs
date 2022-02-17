@@ -46,7 +46,7 @@ namespace Module_Constructor.Services
 
                 if (panelModel.HasErrors)
                 {
-                    _Logger.LogWarning("Ошибки построения детали {0}", panelModel.Name);
+                    _Logger.LogWarning("Ошибка построения детали {0}", panelModel.Name);
                     continue;
                 }
 
@@ -75,6 +75,7 @@ namespace Module_Constructor.Services
         }
 
 
+        #region Private Methods
 
         // Построить модель из детали
         private PanelViewModel BuildViewModel(Panel panel, int AreaWidth, int AreaHeight, int AreaDepth)
@@ -129,7 +130,8 @@ namespace Module_Constructor.Services
         }
 
 
-        private int GetSize(int Bound, int? FirstMargin, int? SecondMargin) // Получить размер детали
+        // Получить размер детали
+        private int GetSize(int Bound, int? FirstMargin, int? SecondMargin)
         {
             if (FirstMargin.HasValue)
             {
@@ -144,7 +146,8 @@ namespace Module_Constructor.Services
         }
 
 
-        private int GetOffset(int Bound, int DetalSize, int? FirstMargin, int? SecondMargin) // Получить смещение детали отностиельно начала координат
+        // Получить смещение детали отностиельно начала координат
+        private int GetOffset(int Bound, int DetalSize, int? FirstMargin, int? SecondMargin)
         {
             if (FirstMargin.HasValue)
             {
@@ -160,10 +163,10 @@ namespace Module_Constructor.Services
         }
 
 
-
         // Устранить пересечения
         private void ExcludeCollisions(PanelViewModel current, ICollection<PanelViewModel> previousModels, int AreaWidth, int AreaHeight, int AreaDepth)
         {
+
             var leftOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Left && current.Anchor != Panel.PanelAnchor.Right)
                 .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
@@ -173,7 +176,6 @@ namespace Module_Constructor.Services
                 .Max();
 
             current.Position.X += leftOffset;
-
 
             var rightOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Right && current.Anchor != Panel.PanelAnchor.Left)
@@ -237,8 +239,8 @@ namespace Module_Constructor.Services
             else
                 current.Depth -= frontOffset + backOffset;
 
-
         }
+
 
         // Определить пересечения по отрезкам
         private bool CheckCollision(int point1, int lenght1, int point2, int lenght2)
@@ -246,7 +248,10 @@ namespace Module_Constructor.Services
             var finish1 = point1 + lenght1;
             var finish2 = point2 + lenght2;
 
-            return (point1 >= point2 && point1 < finish2) || (finish1 > point2 && finish1 <= finish2);
-        }
+            return (point1 >= point2 && point1 < finish2)
+                   || (finish1 > point2 && finish1 <= finish2);
+        } 
+
+        #endregion
     }
 }
