@@ -196,6 +196,8 @@ namespace Module_Constructor.Services
 
             var topOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Top && current.Anchor != Panel.PanelAnchor.Bottom)
+                .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
+                            && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaHeight - p.Position.Y)
                 .DefaultIfEmpty()
                 .Max();
@@ -228,5 +230,13 @@ namespace Module_Constructor.Services
 
         }
 
+        // Определить пересечения по отрезкам
+        private bool CheckCollision(int point1, int lenght1, int point2, int lenght2)
+        {
+            var finish1 = point1 + lenght1;
+            var finish2 = point2 + lenght2;
+
+            return (point1 >= point2 && point1 < finish2) || (finish1 > point2 && finish1 <= finish2);
+        }
     }
 }
