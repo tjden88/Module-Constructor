@@ -12,6 +12,11 @@ namespace Module_Constructor.Data
                 Name = "ЛДСП 16",
                 Thickness = 16
             };
+            var hdf = new Material()
+            {
+                Name = "ХДФ 3",
+                Thickness = 3
+            };
 
 
             yield return new Panel()
@@ -70,6 +75,19 @@ namespace Module_Constructor.Data
                 FrontMargin = 30,
                 Material = ldsp,
                 BackMargin = 0
+            };
+
+            yield return new Panel()
+            {
+                Name = "Задник",
+                Orientation = Panel.PanelOrientation.Frontal,
+                BackMargin = -3,
+                LeftMargin = 2,
+                RightMargin = 2,
+                TopMargin = 2,
+                BottomMargin = 2,
+                Material = hdf,
+                Anchor = Panel.PanelAnchor.Back
             };
 
         }

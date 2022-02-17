@@ -22,7 +22,9 @@ namespace Module_Constructor.Models
             Left,
             Right,
             Top,
-            Bottom
+            Bottom,
+            Back,
+            Front
         }
 
 
