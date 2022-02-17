@@ -166,6 +166,8 @@ namespace Module_Constructor.Services
         {
             var leftOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Left && current.Anchor != Panel.PanelAnchor.Right)
+                .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
+                            && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.X + p.Width)
                 .DefaultIfEmpty()
                 .Max();
@@ -175,6 +177,8 @@ namespace Module_Constructor.Services
 
             var rightOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Right && current.Anchor != Panel.PanelAnchor.Left)
+                .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
+                            && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaWidth - p.Position.X)
                 .DefaultIfEmpty()
                 .Max();
@@ -187,6 +191,8 @@ namespace Module_Constructor.Services
 
             var bottomOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Bottom && current.Anchor != Panel.PanelAnchor.Top)
+                .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
+                            && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.Y + p.Height)
                 .DefaultIfEmpty()
                 .Max();
@@ -209,6 +215,8 @@ namespace Module_Constructor.Services
 
             var backOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Back && current.Anchor != Panel.PanelAnchor.Front)
+                .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
+                            && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => p.Position.Z + p.Depth)
                 .DefaultIfEmpty()
                 .Max();
@@ -218,6 +226,8 @@ namespace Module_Constructor.Services
 
             var frontOffset = previousModels
                 .Where(p => p.Anchor == Panel.PanelAnchor.Front && current.Anchor != Panel.PanelAnchor.Back)
+                .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
+                            && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => AreaDepth - p.Position.Z)
                 .DefaultIfEmpty()
                 .Max();
