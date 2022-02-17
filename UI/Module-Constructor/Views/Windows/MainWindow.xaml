@@ -5,6 +5,7 @@
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:controls="clr-namespace:WPR.Controls;assembly=WPR"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:m="clr-namespace:Module_Constructor.Models"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Style="{StaticResource ChromeWindow}"
         Title="{Binding Title}" Height="650" Width="1000">
@@ -26,16 +27,44 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DockPanel>
+        <DockPanel Margin="5">
             <Button DockPanel.Dock="Top" Content="Загрузить тестовые данные" Command="{Binding LoadTestDataCommand}"/>
             <Button DockPanel.Dock="Top" Content="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"/>
+            <Border Margin="5" DockPanel.Dock="Top">
+                <StackPanel >
+                    <controls:NumericTextBox Hint="Ширина модуля" Value="{Binding Module.Width}" />
+                    <controls:NumericTextBox Hint="Высота модуля" Value="{Binding Module.Height}" />
+                    <controls:NumericTextBox Hint="Глубина модуля" Value="{Binding Module.Depth}" />
 
+                </StackPanel>
+            </Border>
             <controls:WPRCard  DockPanel.Dock="Bottom">
                 <StackPanel DataContext="{Binding SelectedPanel}">
-                    <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали"/>
+                    <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
+                    <TextBlock Text="{Binding LeftMargin, StringFormat=Левый отступ: {0}}"/>
+                    <TextBlock Text="{Binding RightMargin, StringFormat=Правый отступ: {0}}"/>
+                    <TextBlock Text="{Binding TopMargin, StringFormat=Верхний отступ: {0}}"/>
+                    <TextBlock Text="{Binding BottomMargin, StringFormat=Нижний отступ: {0}}"/>
+                    <TextBlock Text="{Binding FrontMargin, StringFormat=Передний отступ: {0}}"/>
+                    <TextBlock Text="{Binding BackMargin, StringFormat=Задний отступ: {0}}"/>
                 </StackPanel>
             </controls:WPRCard>
-            <ListBox ItemsSource="{Binding ModuleParts}" SelectedItem="{Binding SelectedPanel}"/>
+
+            <TextBlock DockPanel.Dock="Top" Text="Детали модуля:"></TextBlock>
+            <ListBox ItemsSource="{Binding ModuleParts}" 
+                     SelectedItem="{Binding SelectedPanel}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type m:Panel}">
+                        <StackPanel>
+                            <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="{Binding Name}"/>
+                            <TextBlock Foreground="{DynamicResource SecondaryTextColorBrush}" Text="{Binding Orientation}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
         </DockPanel>
 
