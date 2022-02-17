@@ -201,6 +201,24 @@ namespace Module_Constructor.Services
             if (!current.IsFixedHeight)
                 current.Height -= topOffset + bottomOffset;
 
+            var backOffset = previousModels
+                .Where(p => p.Anchor == Panel.PanelAnchor.Back && current.Anchor != Panel.PanelAnchor.Front)
+                .Select(p => p.Position.Z + p.Depth)
+                .DefaultIfEmpty()
+                .Max();
+
+            current.Position.Z += backOffset;
+
+
+            var frontOffset = previousModels
+                .Where(p => p.Anchor == Panel.PanelAnchor.Front && current.Anchor != Panel.PanelAnchor.Back)
+                .Select(p => AreaDepth - p.Position.Z)
+                .DefaultIfEmpty()
+                .Max();
+
+            if (!current.IsFixedDepth)
+                current.Depth -= frontOffset + backOffset;
+
 
         }
 
