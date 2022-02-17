@@ -3,19 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module-Constructor", "UI\Module-Constructor\Module-Constructor.csproj", "{9277C7D6-39C6-4B51-B72E-2ED28F1F4BB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module-Constructor", "UI\Module-Constructor\Module-Constructor.csproj", "{9277C7D6-39C6-4B51-B72E-2ED28F1F4BB1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPR", "..\WPR\WPR\WPR.csproj", "{BCB43702-54C9-46E3-BA87-77606B605DF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module-Constructor.Tests", "Tests\Module-Constructor.Tests\Module-Constructor.Tests.csproj", "{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module-Constructor.Tests", "Tests\Module-Constructor.Tests\Module-Constructor.Tests.csproj", "{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A291A26E-C3A8-4E0B-A160-19FEDC7DD04C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{0E0DB391-46A3-40F8-BE86-B71A3083E8FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E7A2EDBD-D2EF-4F07-9DBE-CF9465B2F5FB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF-3d-Edu", "..\WPF-3d-Edu\WPF-3d-Edu\WPF-3d-Edu.csproj", "{CAEBD612-8AB7-4EEB-AD35-5536417EADB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAEBD612-8AB7-4EEB-AD35-5536417EADB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAEBD612-8AB7-4EEB-AD35-5536417EADB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAEBD612-8AB7-4EEB-AD35-5536417EADB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAEBD612-8AB7-4EEB-AD35-5536417EADB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,7 +41,6 @@ Global
 		{9277C7D6-39C6-4B51-B72E-2ED28F1F4BB1} = {0E0DB391-46A3-40F8-BE86-B71A3083E8FF}
 		{BCB43702-54C9-46E3-BA87-77606B605DF2} = {E7A2EDBD-D2EF-4F07-9DBE-CF9465B2F5FB}
 		{D5B9CAB5-75A7-4E2D-B677-ADF50E10C240} = {A291A26E-C3A8-4E0B-A160-19FEDC7DD04C}
-		{CAEBD612-8AB7-4EEB-AD35-5536417EADB8} = {A291A26E-C3A8-4E0B-A160-19FEDC7DD04C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E5829CF-8101-47E8-8FFF-700C7273EC3A}
