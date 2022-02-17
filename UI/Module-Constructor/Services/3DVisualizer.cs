@@ -179,7 +179,9 @@ namespace Module_Constructor.Services
                 .DefaultIfEmpty()
                 .Max();
 
-            if (!current.IsFixedWidth)
+            if (current.IsFixedWidth)
+                current.Position.X -= rightOffset;
+            else
                 current.Width -= rightOffset + leftOffset;
 
 
@@ -198,7 +200,9 @@ namespace Module_Constructor.Services
                 .DefaultIfEmpty()
                 .Max();
 
-            if (!current.IsFixedHeight)
+            if (current.IsFixedHeight)
+                current.Position.Y -= topOffset;
+            else
                 current.Height -= topOffset + bottomOffset;
 
             var backOffset = previousModels
@@ -216,7 +220,9 @@ namespace Module_Constructor.Services
                 .DefaultIfEmpty()
                 .Max();
 
-            if (!current.IsFixedDepth)
+            if (current.IsFixedDepth)
+                current.Position.Z -= frontOffset;
+            else
                 current.Depth -= frontOffset + backOffset;
 
 
