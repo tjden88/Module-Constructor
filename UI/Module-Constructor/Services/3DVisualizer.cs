@@ -36,7 +36,7 @@ namespace Module_Constructor.Services
 
             var panels = new List<PanelViewModel>();
 
-            foreach (var modulePart in Module.Parts)
+            foreach (var modulePart in Module.Panels)
             {
                 var isSelected = SelectedPanel?.Equals(modulePart);
 

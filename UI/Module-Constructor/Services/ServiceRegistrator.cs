@@ -8,7 +8,8 @@ namespace Module_Constructor.Services
         public static IServiceCollection AddServices(this IServiceCollection services) => 
             services
                 .AddScoped<I3DVisualizer, Visualizer>()
-            
-            ;
+                .AddSingleton<IModuleManager, ModuleManager>()
+                .AddSingleton<IModuleBuilder, ModuleBuilder>()
+                ;
     }
 }

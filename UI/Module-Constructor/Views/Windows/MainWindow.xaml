@@ -25,8 +25,8 @@
     <DockPanel>
              <Menu IsMainMenu="True" DockPanel.Dock="Top">
                 <MenuItem Header="Модуль">
-                    <MenuItem Header="Загрузить"></MenuItem>
-                    <MenuItem Header="Сохранить"></MenuItem>
+                    <MenuItem Header="Загрузить" Command="{Binding LoadModuleCommand}"></MenuItem>
+                    <MenuItem Header="Сохранить" Command="{Binding SaveModuleCommand}"></MenuItem>
                     <Separator/>
                     <MenuItem Header="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"></MenuItem>
                 <MenuItem Header="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"></MenuItem>
@@ -59,7 +59,7 @@
             </GroupBox>
 
             <GroupBox Header="Детали модуля">
-                <ListBox ItemsSource="{Binding ModuleParts}" 
+                <ListBox ItemsSource="{Binding Panels}" 
                          SelectedItem="{Binding SelectedPanel}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type m:Panel}">

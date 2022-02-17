@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media.Media3D;
 using Module_Constructor.Data;
 using Module_Constructor.Models;
@@ -10,10 +12,14 @@ namespace Module_Constructor.ViewModels.Windows;
 public class MainWindowViewModel : WindowViewModel
 {
     private readonly I3DVisualizer _Visualizer;
+    private readonly IModuleManager _ModuleManager;
+    private readonly IModuleBuilder _ModuleBuilder;
 
-    public MainWindowViewModel(I3DVisualizer Visualizer)
+    public MainWindowViewModel(I3DVisualizer Visualizer, IModuleManager ModuleManager, IModuleBuilder ModuleBuilder)
     {
         _Visualizer = Visualizer;
+        _ModuleManager = ModuleManager;
+        _ModuleBuilder = ModuleBuilder;
         Title = "Конструктор модулей v0.1";
     }
 
@@ -21,13 +27,13 @@ public class MainWindowViewModel : WindowViewModel
     #region ModuleParts : ObservableCollection<ModulePart> - Детали и секции модуля
 
     /// <summary>Детали и секции модуля</summary>
-    private ObservableCollection<ModulePart> _ModuleParts;
+    private ObservableCollection<Panel> _Panels;
 
     /// <summary>Детали и секции модуля</summary>
-    public ObservableCollection<ModulePart> ModuleParts
+    public ObservableCollection<Panel> Panels
     {
-        get => _ModuleParts;
-        set => Set(ref _ModuleParts, value);
+        get => _Panels;
+        set => Set(ref _Panels, value);
     }
 
     #endregion
@@ -92,7 +98,7 @@ public class MainWindowViewModel : WindowViewModel
     /// <summary>Логика выполнения - Загрузить тестовые данные</summary>
     private void OnLoadTestDataCommandExecuted()
     {
-        ModuleParts = new(TestData.GetKitchenCabinetPanels());
+        Panels = new(TestData.GetKitchenCabinetPanels());
 
         Module = new Module()
         {
@@ -100,13 +106,12 @@ public class MainWindowViewModel : WindowViewModel
             Height = 720,
             Width = 600,
             Depth = 520,
-            Parts = ModuleParts
+            Panels = Panels
         };
         Model = _Visualizer.CreateModel(Module, SelectedPanel);
     }
 
     #endregion
-
 
     #region Command LoadDeskTestDataCommand - Загрузить тестовые данные (тумба с цоколем)
 
@@ -123,7 +128,7 @@ public class MainWindowViewModel : WindowViewModel
     /// <summary>Логика выполнения - Загрузить тестовые данные (тумба с цоколем)</summary>
     private void OnLoadDeskTestDataCommandExecuted()
     {
-        ModuleParts = new(TestData.GetDeskPanels());
+        Panels = new(TestData.GetDeskPanels());
 
         Module = new Module()
         {
@@ -131,7 +136,7 @@ public class MainWindowViewModel : WindowViewModel
             Height = 900,
             Width = 500,
             Depth = 450,
-            Parts = ModuleParts
+            Panels = Panels
         };
         Model = _Visualizer.CreateModel(Module, SelectedPanel);
 
@@ -155,6 +160,49 @@ public class MainWindowViewModel : WindowViewModel
     private void OnUpdateVisualizationCommandExecuted()
     {
         Model = _Visualizer.CreateModel(Module, SelectedPanel);
+    }
+
+    #endregion
+
+    #region Command SaveModuleCommand - Сохранить в файл
+
+    /// <summary>Сохранить в файл</summary>
+    private Command _SaveModuleCommand;
+
+    /// <summary>Сохранить в файл</summary>
+    public Command SaveModuleCommand => _SaveModuleCommand
+        ??= new Command(OnSaveModuleCommandExecuted, CanSaveModuleCommandExecute, "Сохранить в файл");
+
+    /// <summary>Проверка возможности выполнения - Сохранить в файл</summary>
+    private bool CanSaveModuleCommandExecute() => true;
+
+    /// <summary>Логика выполнения - Сохранить в файл</summary>
+    private void OnSaveModuleCommandExecuted()
+    {
+        _ModuleManager.SaveToFile(Module);
+    }
+
+    #endregion
+
+    #region Command LoadModuleCommand - Загрузить из файла
+
+    /// <summary>Загрузить из файла</summary>
+    private Command _LoadModuleCommand;
+
+    /// <summary>Загрузить из файла</summary>
+    public Command LoadModuleCommand => _LoadModuleCommand
+        ??= new Command(OnLoadModuleCommandExecuted, CanLoadModuleCommandExecute, "Загрузить из файла");
+
+    /// <summary>Проверка возможности выполнения - Загрузить из файла</summary>
+    private bool CanLoadModuleCommandExecute() => true;
+
+    /// <summary>Логика выполнения - Загрузить из файла</summary>
+    private void OnLoadModuleCommandExecuted()
+    {
+       Module = _ModuleManager.LoadFromFile();
+       Panels = new(Module?.Panels ?? Enumerable.Empty<Panel>());
+
+       UpdateVisualizationCommand.Execute();
     }
 
     #endregion

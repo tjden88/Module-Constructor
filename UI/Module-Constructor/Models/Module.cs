@@ -17,7 +17,7 @@ namespace Module_Constructor.Models
         /// <summary> Глубина модуля </summary>
         public int Depth { get; set; }
 
-        public ICollection<ModulePart>  Parts { get; set; }
+        public ICollection<Panel> Panels { get; set; }
 
     }
 }
