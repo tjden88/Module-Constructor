@@ -93,7 +93,7 @@ namespace Module_Constructor.Services
                 case Panel.PanelOrientation.Horizontal:
                     viewModel.Width = panel.FixedLenght ?? GetSize(AreaWidth, panel.LeftMargin, panel.RightMargin);
                     viewModel.Height = panel.Thickness;
-                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
+                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BackMargin);
 
                     viewModel.IsFixedWidth = panel.FixedLenght != null;
                     viewModel.IsFixedHeight = true;
@@ -103,7 +103,7 @@ namespace Module_Constructor.Services
                 case Panel.PanelOrientation.Vertical:
                     viewModel.Width = panel.Thickness;
                     viewModel.Height = panel.FixedLenght ?? GetSize(AreaHeight, panel.BottomMargin, panel.TopMargin);
-                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BottomMargin);
+                    viewModel.Depth = panel.FixedWidth ?? GetSize(AreaDepth, panel.FrontMargin, panel.BackMargin);
 
                     viewModel.IsFixedWidth = true;
                     viewModel.IsFixedHeight = panel.FixedLenght != null;
@@ -248,8 +248,7 @@ namespace Module_Constructor.Services
             var finish1 = point1 + lenght1;
             var finish2 = point2 + lenght2;
 
-            return (point1 >= point2 && point1 < finish2)
-                   || (finish1 > point2 && finish1 <= finish2);
+            return finish2 > point1 && point2 < finish1;
         } 
 
         #endregion

@@ -44,12 +44,30 @@
                     <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
-                    <TextBlock Text="{Binding LeftMargin, StringFormat=Левый отступ: {0}}"/>
-                    <TextBlock Text="{Binding RightMargin, StringFormat=Правый отступ: {0}}"/>
-                    <TextBlock Text="{Binding TopMargin, StringFormat=Верхний отступ: {0}}"/>
-                    <TextBlock Text="{Binding BottomMargin, StringFormat=Нижний отступ: {0}}"/>
-                    <TextBlock Text="{Binding FrontMargin, StringFormat=Передний отступ: {0}}"/>
-                    <TextBlock Text="{Binding BackMargin, StringFormat=Задний отступ: {0}}"/>
+                    <DockPanel>
+                        <TextBlock Text="Отступ слева"/>
+                        <TextBox Text="{Binding LeftMargin}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Отступ справа"/>
+                        <TextBox Text="{Binding RightMargin}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Отступ сверху"/>
+                        <TextBox Text="{Binding TopMargin}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Отступ снизу"/>
+                        <TextBox Text="{Binding BottomMargin}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Отступ сзади"/>
+                        <TextBox Text="{Binding BackMargin}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Отступ спереди"/>
+                        <TextBox Text="{Binding FrontMargin}"/>
+                    </DockPanel>
                 </StackPanel>
             </controls:WPRCard>
 
@@ -71,10 +89,9 @@
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
             <h:HelixViewport3D ZoomExtentsWhenLoaded="True" 
                                ZoomAroundMouseDownPoint="True"
-                               RotateAroundMouseDownPoint="True"
-                               IsViewCubeEdgeClicksEnabled="True">
+                               RotateAroundMouseDownPoint="True">
                 <h:HelixViewport3D.Camera>
-                    <PerspectiveCamera Position="000,000,1000"></PerspectiveCamera>
+                    <PerspectiveCamera Position="400,400,1000"></PerspectiveCamera>
                 </h:HelixViewport3D.Camera>
                 <h:SunLight />
 
@@ -82,12 +99,12 @@
                 <ModelVisual3D x:Name="ModelVisual3D" Content="{Binding Model}" />
 
                 <!--  You can also add elements here in the xaml  -->
-                <h:GridLinesVisual3D
+                <!--<h:GridLinesVisual3D
                     Width="800"
                     Length="800"
                     MajorDistance="100"
                     MinorDistance="10"
-                    Thickness="1" />
+                    Thickness="1" />-->
 
             </h:HelixViewport3D>
         </Border>

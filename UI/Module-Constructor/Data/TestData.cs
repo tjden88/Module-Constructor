@@ -79,6 +79,7 @@ namespace Module_Constructor.Data
                 RightMargin = 1
             };
 
+
             yield return new Panel()
             {
                 Name = "Задник",
