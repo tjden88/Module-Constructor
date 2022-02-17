@@ -8,12 +8,12 @@ namespace Module_Constructor.Services.Interfaces
     {
         IEnumerable<PanelViewModel> BuildPanels(Module module);
 
-        PanelViewModel BuildPanel(Module module);
+        PanelViewModel BuildPanel(Module module, Panel panel);
 
         void AddPanel(Module module, Panel panel);
 
         void RemovePanel(Module module, Panel panel);
 
-        void SetPanelOrder(Panel panel, int order);
+        void SetPanelOrder(Module module, Panel panel, int order);
     }
 }

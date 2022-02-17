@@ -21,10 +21,10 @@ namespace Module_Constructor.Services
         {
             var panels = new List<PanelViewModel>();
 
-            foreach (var modulePart in module.Panels)
+            foreach (var modulePart in module.Panels.OrderBy(p => p.Order))
             {
 
-                var panelModel = BuildViewModel((Panel)modulePart, module.Width, module.Height, module.Depth);
+                var panelModel = BuildViewModel(modulePart, module.Width, module.Height, module.Depth);
 
                 ExcludeCollisions(panelModel, panels, module.Width, module.Height, module.Depth);
 
@@ -35,31 +35,49 @@ namespace Module_Constructor.Services
                 }
 
                 panels.Add(panelModel);
+
+                yield return panelModel;
             }
-
-            return panels;
         }
 
-        public PanelViewModel BuildPanel(Module module)
-        {
-            throw new NotImplementedException();
-        }
+        public PanelViewModel BuildPanel(Module module, Panel panel) => 
+            BuildPanels(module)
+                .FirstOrDefault(p => p.Panel.Equals(panel));
+
 
         public void AddPanel(Module module, Panel panel)
         {
-            throw new NotImplementedException();
+            var order = module.Panels.Count + 1;
+            panel.Order = order;
+            module.Panels.Add(panel);
         }
 
         public void RemovePanel(Module module, Panel panel)
         {
-            throw new NotImplementedException();
+            if (!module.Panels.Remove(panel)) return;
+
+            // Упорядочить номера деталей
+            var index = 1;
+            foreach (var p in module.Panels.OrderBy(p => p.Order)) 
+                p.Order = index++;
+
         }
 
-        public void SetPanelOrder(Panel panel, int order)
+        public void SetPanelOrder(Module module, Panel panel, int order)
         {
-            throw new NotImplementedException();
-        }
+            if (order < 1 || order > module.Panels.Count)
+                throw new ArgumentOutOfRangeException(nameof(order),
+                    "Номер детали должен быть не менее 1 и не более общего количества деталей");
 
+            // Упорядочить номера деталей
+            var index = order + 1;
+            foreach (var p in module.Panels
+                         .Where(p => p.Order > order && !p.Equals(panel))
+                         .OrderBy(p => p.Order)) 
+                p.Order = index++;
+
+            panel.Order = order;
+        }
 
         #region Private Methods
 

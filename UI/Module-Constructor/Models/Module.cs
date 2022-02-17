@@ -17,7 +17,7 @@ namespace Module_Constructor.Models
         /// <summary> Глубина модуля </summary>
         public int Depth { get; set; }
 
-        public ICollection<Panel> Panels { get; set; }
+        public ICollection<Panel> Panels { get; set; } = new HashSet<Panel>();
 
     }
 }
