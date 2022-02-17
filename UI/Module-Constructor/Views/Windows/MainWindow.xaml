@@ -22,26 +22,28 @@
         </StackPanel>
     </helpers:WindowHelper.WindowHeaderContent>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <DockPanel Margin="5">
-            <Button DockPanel.Dock="Top" Content="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"/>
-            <Button DockPanel.Dock="Top" Content="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"/>
-            <Button DockPanel.Dock="Top" Content="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"/>
-            <Border Margin="5" DockPanel.Dock="Top">
-                <StackPanel >
+    <DockPanel>
+             <Menu IsMainMenu="True" DockPanel.Dock="Top">
+                <MenuItem Header="Модуль">
+                    <MenuItem Header="Загрузить"></MenuItem>
+                    <MenuItem Header="Сохранить"></MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"></MenuItem>
+                <MenuItem Header="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"></MenuItem>
+                </MenuItem>
+            <MenuItem Header="Обновить 3D" Command="{Binding UpdateVisualizationCommand}"></MenuItem>
+            </Menu>
+       <DockPanel Margin="5" Width="250">
+            <GroupBox Header="Параметры модуля" DockPanel.Dock="Top">
+                <StackPanel Margin="5" >
                     <controls:NumericTextBox Hint="Ширина модуля" Value="{Binding Module.Width}" />
                     <controls:NumericTextBox Hint="Высота модуля" Value="{Binding Module.Height}" />
                     <controls:NumericTextBox Hint="Глубина модуля" Value="{Binding Module.Depth}" />
-
                 </StackPanel>
-            </Border>
-            <controls:WPRCard  DockPanel.Dock="Bottom">
+            </GroupBox>
+            <Button Content="Обновить 3D" DockPanel.Dock="Bottom"  Command="{Binding UpdateVisualizationCommand}"></Button>
+           <GroupBox Header="Информация о детали"  DockPanel.Dock="Bottom">
                 <StackPanel Margin="5" DataContext="{Binding SelectedPanel}">
-                    <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="Информация о детали" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
@@ -53,22 +55,22 @@
                     <TextBox Text="{Binding BottomMargin}" helpers:TextHelper.Hint="Отступ снизу"/>
                     <TextBox Text="{Binding BackMargin}" helpers:TextHelper.Hint="Отступ сзади"/>
                     <TextBox Text="{Binding FrontMargin}" helpers:TextHelper.Hint="Отступ спереди"/>
-
                 </StackPanel>
-            </controls:WPRCard>
+            </GroupBox>
 
-            <TextBlock DockPanel.Dock="Top" Text="Детали модуля:"></TextBlock>
-            <ListBox ItemsSource="{Binding ModuleParts}" 
-                     SelectedItem="{Binding SelectedPanel}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type m:Panel}">
-                        <StackPanel>
-                            <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="{Binding Name}"/>
-                            <TextBlock Foreground="{DynamicResource SecondaryTextColorBrush}" Text="{Binding Orientation}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <GroupBox Header="Детали модуля">
+                <ListBox ItemsSource="{Binding ModuleParts}" 
+                         SelectedItem="{Binding SelectedPanel}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type m:Panel}">
+                            <StackPanel>
+                                <TextBlock Foreground="{DynamicResource PrimaryColorBrush}" Text="{Binding Name}"/>
+                                <TextBlock Foreground="{DynamicResource SecondaryTextColorBrush}" Text="{Binding Orientation}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
 
         </DockPanel>
 
@@ -95,5 +97,5 @@
             </h:HelixViewport3D>
         </Border>
 
-    </Grid>
+    </DockPanel>
 </Window>

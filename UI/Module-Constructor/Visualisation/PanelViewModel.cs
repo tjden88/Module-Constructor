@@ -5,8 +5,6 @@ namespace Module_Constructor.Visualisation
 {
     public class PanelViewModel
     {
-        public string Name { get; set; }
-
         public int Width { get; set; }
         public int Height { get; set; }
         public int Depth { get; set; }
@@ -17,9 +15,7 @@ namespace Module_Constructor.Visualisation
 
         public Position Position { get; set; } = new();
 
-        public Panel.PanelOrientation Orientation { get; set; }
-
-        public Panel.PanelAnchor Anchor { get; set; }
+        public Panel Panel { get; set; }
 
         public bool HasErrors => Width < 1 || Height <1 || Depth <1; // TODO: валидация данных
 

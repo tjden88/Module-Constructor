@@ -46,7 +46,7 @@ namespace Module_Constructor.Services
 
                 if (panelModel.HasErrors)
                 {
-                    _Logger.LogWarning("Ошибка построения детали {0}", panelModel.Name);
+                    _Logger.LogWarning("Ошибка построения детали {0}", panelModel.Panel.Name);
                     continue;
                 }
 
@@ -82,9 +82,7 @@ namespace Module_Constructor.Services
         {
             var viewModel = new PanelViewModel()
             {
-                Orientation = panel.Orientation,
-                Anchor = panel.Anchor,
-                Name = panel.Name
+                Panel = panel
             };
 
             // Установить размеры и положение в зависимости от ориентации
@@ -168,17 +166,16 @@ namespace Module_Constructor.Services
         {
 
             var leftOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Left && current.Anchor != Panel.PanelAnchor.Right)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Left && current.Panel.Anchor != Panel.PanelAnchor.Right)
                 .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.X + p.Width)
                 .DefaultIfEmpty()
                 .Max();
 
-            current.Position.X += leftOffset;
 
             var rightOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Right && current.Anchor != Panel.PanelAnchor.Left)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Right && current.Panel.Anchor != Panel.PanelAnchor.Left)
                 .Where(p => CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaWidth - p.Position.X)
@@ -186,24 +183,29 @@ namespace Module_Constructor.Services
                 .Max();
 
             if (current.IsFixedWidth)
-                current.Position.X -= rightOffset;
+            {
+                if (current.Panel.LeftMargin is { }) current.Position.X += leftOffset;
+                if (current.Panel.RightMargin is { }) current.Position.X -= rightOffset;
+            }
             else
+            {
+                current.Position.X += leftOffset;
                 current.Width -= rightOffset + leftOffset;
+            }
 
 
             var bottomOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Bottom && current.Anchor != Panel.PanelAnchor.Top)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Bottom && current.Panel.Anchor != Panel.PanelAnchor.Top)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => p.Position.Y + p.Height)
                 .DefaultIfEmpty()
                 .Max();
 
-            current.Position.Y += bottomOffset;
 
 
             var topOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Top && current.Anchor != Panel.PanelAnchor.Bottom)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Top && current.Panel.Anchor != Panel.PanelAnchor.Bottom)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Z, current.Depth, p.Position.Z, p.Depth))
                 .Select(p => AreaHeight - p.Position.Y)
@@ -211,23 +213,28 @@ namespace Module_Constructor.Services
                 .Max();
 
             if (current.IsFixedHeight)
-                current.Position.Y -= topOffset;
+            {
+                if (current.Panel.BottomMargin is { }) current.Position.Y += bottomOffset;
+                if (current.Panel.TopMargin is { }) current.Position.Y -= topOffset;
+            }
             else
+            {
+                current.Position.Y += bottomOffset;
                 current.Height -= topOffset + bottomOffset;
+            }
 
             var backOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Back && current.Anchor != Panel.PanelAnchor.Front)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Back && current.Panel.Anchor != Panel.PanelAnchor.Front)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => p.Position.Z + p.Depth)
                 .DefaultIfEmpty()
                 .Max();
 
-            current.Position.Z += backOffset;
 
 
             var frontOffset = previousModels
-                .Where(p => p.Anchor == Panel.PanelAnchor.Front && current.Anchor != Panel.PanelAnchor.Back)
+                .Where(p => p.Panel.Anchor == Panel.PanelAnchor.Front && current.Panel.Anchor != Panel.PanelAnchor.Back)
                 .Where(p => CheckCollision(current.Position.X, current.Width, p.Position.X, p.Width)
                             && CheckCollision(current.Position.Y, current.Height, p.Position.Y, p.Height))
                 .Select(p => AreaDepth - p.Position.Z)
@@ -235,9 +242,15 @@ namespace Module_Constructor.Services
                 .Max();
 
             if (current.IsFixedDepth)
-                current.Position.Z -= frontOffset;
+            {
+                if (current.Panel.BackMargin is { }) current.Position.Z += backOffset;
+                if (current.Panel.FrontMargin is { }) current.Position.Z -= frontOffset;
+            }
             else
+            {
+                current.Position.Z += backOffset;
                 current.Depth -= frontOffset + backOffset;
+            }
 
         }
 
@@ -249,7 +262,7 @@ namespace Module_Constructor.Services
             var finish2 = point2 + lenght2;
 
             return finish2 > point1 && point2 < finish1;
-        } 
+        }
 
         #endregion
     }
