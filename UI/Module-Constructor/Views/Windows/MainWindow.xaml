@@ -6,9 +6,20 @@
         xmlns:controls="clr-namespace:WPR.Controls;assembly=WPR"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:m="clr-namespace:Module_Constructor.Models"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime"
+        xmlns:converters="clr-namespace:Module_Constructor.Infrastructure.Converters"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Style="{StaticResource ChromeWindow}"
         Title="{Binding Title}" Height="1000" Width="1200">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="m:PanelAnchor"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:ModuleBoundsConverter x:Key="BoundsConverter"/>
+    </Window.Resources>
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:EventTrigger.Actions>
@@ -27,6 +38,7 @@
             <MenuItem Header="Модуль">
                 <MenuItem Header="Загрузить" Command="{Binding LoadModuleCommand}"></MenuItem>
                 <MenuItem Header="Сохранить" Command="{Binding SaveModuleCommand}"></MenuItem>
+                <MenuItem Header="Очистить" Command="{Binding ClearPanelsCommand}"></MenuItem>
                 <Separator/>
                 <MenuItem Header="Загрузить кухонный модуль" Command="{Binding LoadTestDataCommand}"></MenuItem>
                 <MenuItem Header="Загрузить тумбу с цоколем" Command="{Binding LoadDeskTestDataCommand}"></MenuItem>
@@ -61,7 +73,7 @@
             <GroupBox Header="Информация о детали"  DockPanel.Dock="Bottom">
                 <StackPanel Margin="5" DataContext="{Binding SelectedPanel}">
                     <TextBlock Text="{Binding Material.Name, StringFormat=Материал: {0}}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Anchor, StringFormat=Привязка: {0}}"/>
+                    <ComboBox Margin="0,15,0,0" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" helpers:TextHelper.Hint="Привязка" SelectedItem="{Binding Anchor}"/>
                     <TextBox Text="{Binding Name}" helpers:TextHelper.Hint="Имя детали"/>
                     <TextBox Text="{Binding FixedLenght}" helpers:TextHelper.Hint="Фиксированная длина"/>
                     <TextBox Text="{Binding FixedWidth}" helpers:TextHelper.Hint="Фиксированная ширина"/>
@@ -99,8 +111,10 @@
                 </h:HelixViewport3D.Camera>
                 <h:SunLight />
 
+                <h:BoundingBoxWireFrameVisual3D Color="Black" Thickness="1" BoundingBox="{Binding Module, Converter={StaticResource BoundsConverter}}"/>
                 <!--  The content of this visual is defined in MainViewModel.cs  -->
                 <ModelVisual3D x:Name="ModelVisual3D" Content="{Binding Model}" />
+
 
                 <!--  You can also add elements here in the xaml  -->
                 <!--<h:GridLinesVisual3D

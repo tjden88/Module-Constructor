@@ -186,6 +186,27 @@ public class MainWindowViewModel : WindowViewModel
 
     #endregion
 
+    #region Command ClearPanelsCommand - Очистить детали
+
+    /// <summary>Очистить детали</summary>
+    private Command _ClearPanelsCommand;
+
+    /// <summary>Очистить детали</summary>
+    public Command ClearPanelsCommand => _ClearPanelsCommand
+        ??= new Command(OnClearPanelsCommandExecuted, CanClearPanelsCommandExecute, "Очистить детали");
+
+    /// <summary>Проверка возможности выполнения - Очистить детали</summary>
+    private bool CanClearPanelsCommandExecute() => Panels.Count>0;
+
+    /// <summary>Логика выполнения - Очистить детали</summary>
+    private void OnClearPanelsCommandExecuted()
+    {
+        Module.Panels.Clear();
+        UpdateVisualizationCommand.Execute();
+    }
+
+    #endregion
+
     #region Command LoadModuleCommand - Загрузить из файла
 
     /// <summary>Загрузить из файла</summary>
@@ -242,28 +263,32 @@ public class MainWindowViewModel : WindowViewModel
         switch (orientation)
         {
             case PanelOrientation.Horizontal:
-                panel.LeftMargin = 0;
-                panel.RightMargin = 0;
-                panel.FrontMargin = 0;
-                panel.BackMargin = 0;
+                //panel.LeftMargin = 0;
+                //panel.RightMargin = 0;
+                //panel.FrontMargin = 0;
+                //panel.BackMargin = 0;
+                panel.Anchor = PanelAnchor.Bottom;
                 break;
             case PanelOrientation.Vertical:
-                panel.TopMargin = 0;
-                panel.BottomMargin = 0;
-                panel.FrontMargin = 0;
-                panel.BackMargin = 0;
+                //panel.TopMargin = 0;
+                //panel.BottomMargin = 0;
+                //panel.FrontMargin = 0;
+                //panel.BackMargin = 0;
+                panel.Anchor = PanelAnchor.Left;
                 break;
             case PanelOrientation.Frontal:
-                panel.LeftMargin = 0;
-                panel.RightMargin = 0;
-                panel.TopMargin = 0;
-                panel.BottomMargin = 0;
+                //panel.LeftMargin = 0;
+                //panel.RightMargin = 0;
+                //panel.TopMargin = 0;
+                //panel.BottomMargin = 0;
+                panel.Anchor = PanelAnchor.Back;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(p), p, null);
         }
 
         _ModuleBuilder.AddPanel(Module,panel);
+        SelectedPanel = panel;
     }
 
     #endregion

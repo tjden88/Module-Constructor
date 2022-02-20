@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
@@ -37,13 +38,15 @@ namespace Module_Constructor.Services
             var blueMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
             var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
 
+            var texturedMaterial = MaterialHelper.CreateImageMaterial("texture.jpg");
+
 
 
             foreach (var panelModel in _ModuleBuilder.BuildPanels(Module))
             {
                 var isSelected = SelectedPanel?.Equals(panelModel.Panel);
 
-                var meshBuilder = new MeshBuilder(false, false);
+                var meshBuilder = new MeshBuilder(true, true);
 
                 var locationPoint = new Point3D(panelModel.Position.Z, panelModel.Position.X, panelModel.Position.Y);
                 var size = new Size3D(panelModel.Depth, panelModel.Width, panelModel.Height);
@@ -55,7 +58,8 @@ namespace Module_Constructor.Services
                 // Create a mesh from the builder (and freeze it)
                 var mesh = meshBuilder.ToMesh(true);
 
-                var material = isSelected == true ? greenMaterial : redMaterial;
+
+                var material = isSelected == true ? greenMaterial : texturedMaterial;
                 // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
                 modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = insideMaterial });
             }
