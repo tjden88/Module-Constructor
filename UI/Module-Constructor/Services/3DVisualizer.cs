@@ -9,6 +9,7 @@ using HelixToolkit.Wpf;
 using Microsoft.Extensions.Logging;
 using Module_Constructor.Models;
 using Module_Constructor.Services.Interfaces;
+using WPR;
 
 namespace Module_Constructor.Services
 {
@@ -25,7 +26,7 @@ namespace Module_Constructor.Services
         }
 
 
-        public Model3D CreateModel(Module Module, Panel SelectedPanel)
+        public Model3D CreateModel(Module Module, Panel SelectedPanel = null, bool IsOpacity = false)
         {
             var sw = Stopwatch.StartNew();
 
@@ -38,7 +39,8 @@ namespace Module_Constructor.Services
             var blueMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
             var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
 
-            var texturedMaterial = MaterialHelper.CreateImageMaterial("texture.jpg");
+            var texturedMaterial = MaterialHelper.CreateImageMaterial("texture.jpg", IsOpacity ? 0.5 : 1);
+            var texturedSelectedMaterial = MaterialHelper.CreateEmissiveImageMaterial("texture.jpg", new SolidColorBrush(Colors.DimGray), UriKind.RelativeOrAbsolute);
 
 
 
@@ -59,10 +61,13 @@ namespace Module_Constructor.Services
                 var mesh = meshBuilder.ToMesh(true);
 
 
-                var material = isSelected == true ? greenMaterial : texturedMaterial;
+                var material = isSelected == true ? texturedSelectedMaterial : texturedMaterial;
                 // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
-                modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = insideMaterial });
+                modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = null });
             }
+
+            var modelBounds = modelGroup.Bounds;
+            modelGroup.Transform = new TranslateTransform3D(-modelBounds.SizeX / 2, -modelBounds.SizeY / 2, -modelBounds.SizeZ / 2);
             _Logger.LogInformation("Визуализация модуля {0} построена за {1} мс.", Module.Name, sw.ElapsedMilliseconds);
 
             return modelGroup;

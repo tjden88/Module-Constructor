@@ -11,7 +11,7 @@ namespace Module_Constructor.Infrastructure.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is Module module ? new Rect3D(0,0,0,module.Depth, module.Width, module.Height) : Rect3D.Empty;
+            return value is Module module ? new Rect3D(- module.Depth / 2d, -module.Width / 2d, -module.Height / 2d, module.Depth, module.Width, module.Height) : Rect3D.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

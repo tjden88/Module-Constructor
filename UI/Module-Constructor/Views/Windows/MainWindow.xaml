@@ -88,6 +88,7 @@
 
             <GroupBox Header="Детали модуля">
                 <ListBox ItemsSource="{Binding Panels}" 
+                         Name="ListBox"
                          SelectedItem="{Binding SelectedPanel}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type m:Panel}">
@@ -102,30 +103,44 @@
 
         </DockPanel>
 
-        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
-            <h:HelixViewport3D ZoomExtentsWhenLoaded="True" 
-                               ZoomAroundMouseDownPoint="True"
-                               RotateAroundMouseDownPoint="True">
-                <h:HelixViewport3D.Camera>
-                    <PerspectiveCamera Position="400,400,1000"></PerspectiveCamera>
-                </h:HelixViewport3D.Camera>
-                <h:SunLight />
+        <Grid>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <h:HelixViewport3D Name="Viewport3D"
+                    ZoomExtentsWhenLoaded="True" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
+                                   ZoomAroundMouseDownPoint="True"
+                                   Background="LightGray" IsHeadLightEnabled="False"
+                                   RotateAroundMouseDownPoint="True"
+                                   ShowViewCube="False"
+                                   ResetCameraKeyGesture="{x:Null}"
+                                   ShowCameraTarget="False">
+                    <h:HelixViewport3D.InputBindings>
+                        <KeyBinding Command="{Binding ResetCommand}" Key="Home"/>
+                    </h:HelixViewport3D.InputBindings>
+                    <h:HelixViewport3D.Camera>
+                        <PerspectiveCamera x:Name="Camera" Position="600,-400,0" LookDirection="-688,438,-300" UpDirection="-0.3,0.2,0.9" />
+                    </h:HelixViewport3D.Camera>
+                    <h:SunLight />
 
-                <h:BoundingBoxWireFrameVisual3D Color="Black" Thickness="1" BoundingBox="{Binding Module, Converter={StaticResource BoundsConverter}}"/>
-                <!--  The content of this visual is defined in MainViewModel.cs  -->
-                <ModelVisual3D x:Name="ModelVisual3D" Content="{Binding Model}" />
+                    <h:BoundingBoxWireFrameVisual3D Color="Black" Thickness="1" BoundingBox="{Binding Module, Converter={StaticResource BoundsConverter}}"/>
+                    <!--  The content of this visual is defined in MainViewModel.cs  -->
+                    <ModelVisual3D x:Name="ModelVisual3D" Content="{Binding Model}" />
 
 
-                <!--  You can also add elements here in the xaml  -->
-                <!--<h:GridLinesVisual3D
+                    <!--  You can also add elements here in the xaml  -->
+                    <!--<h:GridLinesVisual3D
                     Width="800"
                     Length="800"
                     MajorDistance="100"
                     MinorDistance="10"
                     Thickness="1" />-->
 
-            </h:HelixViewport3D>
-        </Border>
+                </h:HelixViewport3D>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <CheckBox VerticalAlignment="Center" Content="Прозрачность" IsChecked="{Binding IsOpacityMaterial}"></CheckBox>
+                <Button Content="Камера в центр" Click="ResetCamera_Click"/>
+            </StackPanel>
+        </Grid>
 
     </DockPanel>
 </Window>

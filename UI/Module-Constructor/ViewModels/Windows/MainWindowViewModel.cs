@@ -81,6 +81,23 @@ public class MainWindowViewModel : WindowViewModel
 
     #endregion
 
+    #region IsOpacityMaterial : bool - Прозрачность
+
+    /// <summary>Прозрачность</summary>
+    private bool _IsOpacityMaterial;
+
+    /// <summary>Прозрачность</summary>
+    public bool IsOpacityMaterial
+    {
+        get => _IsOpacityMaterial;
+        set => IfSet(ref _IsOpacityMaterial, value)
+            .Then(() => UpdateVisualizationCommand.Execute());
+    }
+
+    #endregion
+
+    
+
     #endregion
 
     #region Commands
@@ -161,7 +178,7 @@ public class MainWindowViewModel : WindowViewModel
     /// <summary>Логика выполнения - Обновить визуализацию модели</summary>
     private void OnUpdateVisualizationCommandExecuted()
     {
-        Model = _Visualizer.CreateModel(Module, SelectedPanel);
+        Model = _Visualizer.CreateModel(Module, SelectedPanel, IsOpacityMaterial);
     }
 
     #endregion
